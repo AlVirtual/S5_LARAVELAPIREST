@@ -19,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        //$requestData['password'] = Hash::make($request->password);
+        $requestData['password'] = Hash::make($request->password);
 
         $user = User::create($requestData);
 
@@ -35,33 +35,30 @@ class AuthController extends Controller
             'password' => 'required'
         ]); */
 
-        
-
 
         if(!Auth::attempt($loginData)){
             //return $loginData;
             return response()->json(['message' => 'Datos incorrectos'],400);
         }
         else{   
+            /** @var \App\Models\User $user **/  
             $user = Auth::user(); 
-            //$loginToken = $user->createToken('authToken')->loginToken;
-            //return response()->json(['acces_token' => $loginToken]);
-            return $user;
-        }  
+            $accessToken = $user->createToken('authToken')->accessToken;
+            return response()->json(['user'=> $user,'access_token'=>$accessToken],200);
 
-
-        /*         if(auth()->attempt($loginData)){
-            //generate the token for the user
-            $user_login_token= auth()->user()->createToken('authToken')->accessToken;
-            //now return this token on success login attempt
-            return response()->json(['token' => $user_login_token], 200);
         }
-        else{
-            //wrong login credentials, return, user not authorised to our system, return error code 401
-            return response()->json(['error' => 'UnAuthorised Access'], 401);
-        }  */
-
-
     }
+
+    public function userInfo() 
+    {
+ 
+        $user = auth()->user();
+      
+        return response()->json(['user' => $user], 200);
+ 
+    }
+
+
     
+
 }
