@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Player;
+use App\Models\User;
 //use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,9 +41,9 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
+               
         $request->validate([
             'name' => 'required|string',
-            'user_id' => 'unique:user_id',
         ]);
         
         $player = new Player();
