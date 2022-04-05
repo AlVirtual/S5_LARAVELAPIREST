@@ -52,11 +52,16 @@ class AuthController extends Controller
     public function userInfo() 
     {
  
-        $user = auth()->user();
-      
+        $user = Auth::user();
         return response()->json(['user' => $user], 200);
  
     }
+
+    public function logout(Request $request)
+{
+        $request->user()->token()->revoke();
+        return response()->json(['message' => 'Sesión cerrada con exito'],200);
+}
 
 
     

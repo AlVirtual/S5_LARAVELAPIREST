@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Player;
+//use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
@@ -40,6 +42,7 @@ class PlayerController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
+            'user_id' => 'unique:user_id',
         ]);
         
         $player = new Player();
@@ -48,8 +51,9 @@ class PlayerController extends Controller
         $player->loseshots = $request->loseshots;
         $player->totalshots = $request->totalshots;
         $player->percent = $request->percent;
+        $player->user_id = Auth::user()->id;
 
-
+        
         $player->save();
         return response()->json(compact('player'));
 
