@@ -55,7 +55,7 @@ class PlayerController extends Controller
         $player->percent = $request->percent;
         $player->user_id = Auth::user()->id;
 
-        $playeruser = Player::where ('user_id', Auth::user()->id )->first();
+        $playeruser = Player::where ('user_id', Auth::user()->id)->first();
         
         
         if(!$playeruser){
@@ -105,7 +105,7 @@ class PlayerController extends Controller
         if ($player->user_id != Auth::user()->id){
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:' .$playeruser]);
+            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
         }
         else{
 
