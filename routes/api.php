@@ -36,7 +36,9 @@ Route::put('players/{player}', [PlayerController::class, 'update'])->name('playe
 Route::post('players/{player}/games', [ShotController::class, 'store'])->name('players.store');  // un jugador específic realitza una tirada dels daus.
 Route::delete('players/{player}/games', [ShotController::class, 'destroy'])->name('players.destroy');  // elimina les tirades del jugador
 Route::get('players/{player}/games', [ShotController::class, 'show'])->name('players.show');  // retorna el llistat de jugades per un jugador.
+});
 
+Route::group(['middleware' => 'auth:api','admin'], function(){
 Route::get('players', [PlayerController::class, 'index'])->name('players.index');//revisar  // retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits 
 
 
