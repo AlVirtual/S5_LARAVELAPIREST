@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Player;
+use App\Models\User;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
+
 
 class PlayerController extends Controller
 {
@@ -38,21 +42,31 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+               
+        /* $request->validate([
             'name' => 'required|string',
-        ]);
+        ]); */
         
         $player = new Player();
-        $player->name = $request->name;
+        $player->name = $request->name ?? 'Anonim';
         $player->winshots = $request->winshots;
         $player->loseshots = $request->loseshots;
         $player->totalshots = $request->totalshots;
         $player->percent = $request->percent;
+        $player->user_id = Auth::user()->id;
 
+        $playeruser = Player::where ('user_id', Auth::user()->id)->first();
+        
+        
+        if(!$playeruser){
 
-        $player->save();
-        return response()->json(compact('player'));
+            $player->save();
+            return response()->json(compact('player'));
+        } 
+        else{
 
+            return response()->json(['message' => 'Ja tens un player assignat.El teu player es:', $playeruser]);
+        }
     }
 
     /**
@@ -88,8 +102,16 @@ class PlayerController extends Controller
     {
         $player->name = $request->name;
 
-        $player->save();
-        return response()->json(compact('player'));
+        if ($player->user_id != Auth::user()->id){
+
+            $playeruser = Player::where('user_id', Auth::user()->id)->first();
+            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
+        }
+        else{
+
+            $player->save();
+            return response()->json(compact('player'));
+        }
     }
 
     /**
