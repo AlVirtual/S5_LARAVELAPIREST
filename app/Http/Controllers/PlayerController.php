@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Player;
 use App\Models\User;
-//use App\Http\Controllers\Auth;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
+
 
 class PlayerController extends Controller
 {
@@ -58,10 +59,13 @@ class PlayerController extends Controller
         
         
         if(!$playeruser){
-        $player->save();
-        return response()->json(compact('player'));
-        } else{
-        return response()->json(['message'=> 'Ja tens un player assignat.El teu player es:', $playeruser]);
+
+            $player->save();
+            return response()->json(compact('player'));
+        } 
+        else{
+
+            return response()->json(['message' => 'Ja tens un player assignat.El teu player es:', $playeruser]);
         }
     }
 
@@ -98,8 +102,16 @@ class PlayerController extends Controller
     {
         $player->name = $request->name;
 
-        $player->save();
-        return response()->json(compact('player'));
+        if ($player->user_id != Auth::user()->id){
+
+            $playeruser = Player::where('user_id', Auth::user()->id)->first();
+            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:' .$playeruser]);
+        }
+        else{
+
+            $player->save();
+            return response()->json(compact('player'));
+        }
     }
 
     /**
