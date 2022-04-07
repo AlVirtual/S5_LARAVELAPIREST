@@ -39,8 +39,10 @@ class ShotController extends Controller
      */
     public function store(Request $request, Player $player)
     {
+
         //comprovar que el player pertany al user
-        if($player->user_id != Auth::user()->id){
+        
+         if($player->user_id != Auth::user()->id){
             
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
             return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
@@ -80,7 +82,7 @@ class ShotController extends Controller
         //retornem json
 
             return response()->json(compact('player','dice1','dice2','result'));
-        }
+        }  
     }
 
     /**
@@ -91,6 +93,7 @@ class ShotController extends Controller
      */
     public function show(Player $player)
     {
+
         if($player->user_id != Auth::user()->id){
             
             $playeruser = Player::where('user_id', Auth::user()->id)->first();

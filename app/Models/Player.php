@@ -35,7 +35,8 @@ class Player extends Model
     {
         $playerup->increment('winshots');
         $playerup->increment('totalshots');
-        
+        $percent = ($playerup->winshots*100/$playerup->totalshots);
+        $playerup->percent = $percent;
 
         $playerup->save();
         
@@ -45,11 +46,11 @@ class Player extends Model
     {
         $playerup->increment('loseshots');
         $playerup->increment('totalshots');
+        $percent = ($playerup->winshots*100/$playerup->totalshots);
+        $playerup->percent = $percent;
 
         $playerup->save();
         
     }
-
-
 
 }

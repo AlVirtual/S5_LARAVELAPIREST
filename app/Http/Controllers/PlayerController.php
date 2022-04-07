@@ -128,11 +128,14 @@ class PlayerController extends Controller
 
     public function rank()
     {
-        $rank = Player::select(['name','percent'])->where('totalshots','!=','0')->orderByDesc('percent')->get();
-        
-        //$players = Player::avg('percent');
 
-        return response()->json(compact('rank'));
+        $average = Player::avg('percent');
+
+  //$rank = Player::select(['name','percent'])->where('totalshots','!=','0')->orderByDesc('percent')->get();
+        
+        
+
+        return response()->json(compact('average')); 
     }
 
 
