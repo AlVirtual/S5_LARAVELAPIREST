@@ -99,15 +99,15 @@ class ShotController extends Controller
         }
         else{
             $playershots = Shot::where('player_id',$player->id)->get();
-
+            
             if(empty($playershots)){
             
-                return response()->json(compact('playershots'));
+                return response()->json(['message' => 'No tens historial de jugades o aquest a sigut esborrat']);   
             
             }
             else{
 
-                return response()->json(['message' => 'No tens historial de jugades o aquest a sigut esborrat']);
+                return response()->json(compact('playershots'));
             }
         }
     }

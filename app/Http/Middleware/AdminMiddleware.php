@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 //use App\Http\Middleware\Auth;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdminMiddleware
 {
@@ -18,7 +19,10 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->is_admin==true)
+        if (Auth::user()->is_admin)
         return $next($request);
-    }
+
+    return response()->json(['message'=>'No tens privilegis d\'Administrador']);  
+    }  
+    
 }

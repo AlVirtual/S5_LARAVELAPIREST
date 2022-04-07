@@ -46,4 +46,5 @@ class User extends Authenticatable
     public function player() {
         return $this->hasOne('App\Models\Player');
       }
+ 
 }

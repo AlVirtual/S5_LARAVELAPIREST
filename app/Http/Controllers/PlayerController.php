@@ -49,10 +49,10 @@ class PlayerController extends Controller
         
         $player = new Player();
         $player->name = $request->name ?? 'Anonim';
-        $player->winshots = $request->winshots;
-        $player->loseshots = $request->loseshots;
-        $player->totalshots = $request->totalshots;
-        $player->percent = $request->percent;
+        $player->winshots = '0';
+        $player->loseshots = '0';
+        $player->totalshots = '0';
+        $player->percent = '0';
         $player->user_id = Auth::user()->id;
 
         $playeruser = Player::where ('user_id', Auth::user()->id)->first();

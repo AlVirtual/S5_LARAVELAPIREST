@@ -35,6 +35,7 @@ class Player extends Model
     {
         $playerup->increment('winshots');
         $playerup->increment('totalshots');
+        
 
         $playerup->save();
         

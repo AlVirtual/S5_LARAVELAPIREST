@@ -26,6 +26,8 @@ class PlayerFactory extends Factory
         $loseshots = rand(1,50);
         $totalshots = $winshots+$loseshots;
         $percent = ($winshots*100/$totalshots);
+
+
         return [
             'name' => $this->faker->name(),
             'winshots' => $winshots,
@@ -33,6 +35,8 @@ class PlayerFactory extends Factory
             'totalshots' => $totalshots,
             'percent' => $percent,
             'user_id' => User::all()->random()->id
+
+            
         ];
     }
 }
