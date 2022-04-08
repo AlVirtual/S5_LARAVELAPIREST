@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','winshots','loseshots','totalshots','percent','user_id'];
+    protected $fillable = ['name', 'winshots', 'loseshots', 'totalshots', 'percent', 'user_id'];
 
     public function user()
     {
@@ -28,29 +28,25 @@ class Player extends Model
         $player->percent = '0';
 
         $player->save();
-        
     }
 
     public function increStats(Player $playerup)
     {
         $playerup->increment('winshots');
         $playerup->increment('totalshots');
-        $percent = ($playerup->winshots*100/$playerup->totalshots);
+        $percent = ($playerup->winshots * 100 / $playerup->totalshots);
         $playerup->percent = $percent;
 
         $playerup->save();
-        
     }
 
     public function decreStats(Player $playerup)
     {
         $playerup->increment('loseshots');
         $playerup->increment('totalshots');
-        $percent = ($playerup->winshots*100/$playerup->totalshots);
+        $percent = ($playerup->winshots * 100 / $playerup->totalshots);
         $playerup->percent = $percent;
 
         $playerup->save();
-        
     }
-
 }

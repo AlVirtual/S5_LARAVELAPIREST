@@ -29,7 +29,5 @@ class DatabaseSeeder extends Seeder
         User::factory(9)->create();
         Player::factory(10)->create();
         Shot::factory(10)->create();
-
-
     }
 }
