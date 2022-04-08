@@ -45,7 +45,7 @@ class ShotController extends Controller
         if ($player->user_id != Auth::user()->id) {
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+            return response()->json(['Atenció' => 'Aquest jugador no et pertany. El teu jugador es:', $playeruser]);
         } else {
 
             //executem la partida amb jugador, daus i resultat
@@ -94,16 +94,16 @@ class ShotController extends Controller
         if ($player->user_id != Auth::user()->id) {
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+            return response()->json(['Atenció' => 'Aquest jugador no et pertany. El teu jugador es:', $playeruser]);
         } else {
             $playershots = Shot::where('player_id', $player->id)->get();
 
             if (empty($playershots)) {
 
-                return response()->json(['message' => 'No tens historial de jugades o aquest a sigut esborrat']);
+                return response()->json(['Missatge' => 'No tens historial de jugades o aquest a sigut esborrat']);
             } else {
 
-                return response()->json(compact('playershots'));
+                return response()->json(['Jugades'=>$playershots]);
             }
         }
     }
@@ -143,7 +143,7 @@ class ShotController extends Controller
         if ($player->user_id != Auth::user()->id) {
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+            return response()->json(['Atenció' => 'Aquest jugador no et pertany. El teu jugador es:', $playeruser]);
         } else {
 
             //Esborrem jugades del jugador
@@ -155,7 +155,7 @@ class ShotController extends Controller
             $player = Player::find($player->id);
             $player->resetStats($player);
 
-            return response()->json(['message' => 'Partides esborrades correctament. El teu marcador s\'ha establert a 0']);
+            return response()->json(['Missatge' => 'Partides esborrades correctament. El teu marcador s\'ha establert a 0']);
         }
     }
 }

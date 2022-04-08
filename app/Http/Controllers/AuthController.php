@@ -37,12 +37,12 @@ class AuthController extends Controller
 
         if (!Auth::attempt($loginData)) {
 
-            return response()->json(['message' => 'Dades incorrectes'], 400);
+            return response()->json(['Atenció' => 'Dades incorrectes'], 400);
         } else {
             /** @var \App\Models\User $user **/
             $user = Auth::user();
             $accessToken = $user->createToken('authToken')->accessToken;
-            return response()->json(['user' => $user, 'access_token' => $accessToken], 200);
+            return response()->json(['Has accedit a l\'aplicació' => $user, 'access_token' => $accessToken], 200);
         }
     }
 
@@ -50,12 +50,12 @@ class AuthController extends Controller
     {
 
         $user = Auth::user();
-        return response()->json(['user' => $user], 200);
+        return response()->json(['Usuari' => $user], 200);
     }
 
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        return response()->json(['message' => 'Sessió tancada amb èxit'], 200);
+        return response()->json(['Missatge' => 'Sessió tancada amb èxit'], 200);
     }
 }
