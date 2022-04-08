@@ -20,7 +20,7 @@ class PlayerController extends Controller
     {
         $players = Player::all(['name', 'percent']);
 
-        return response()->json(compact('players'));
+        return response()->json(['Jugadors' => $players]);
     }
 
     /**
@@ -55,10 +55,10 @@ class PlayerController extends Controller
         if (!$playeruser) {
 
             $player->save();
-            return response()->json(compact('player'));
+            return response()->json(['S\'ha creat el jugador amb exit'=>$player]);
         } else {
 
-            return response()->json(['message' => 'Ja tens un player assignat.El teu player es:', $playeruser]);
+            return response()->json(['Atenció' => 'Ja tens un player assignat.El teu player es:', $playeruser]);
         }
     }
 
@@ -98,11 +98,11 @@ class PlayerController extends Controller
         if ($player->user_id != Auth::user()->id) {
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+            return response()->json(['Atenció' => 'Aquest jugador no et pertany. El teu jugador es:', $playeruser]);
         } else {
 
             $player->save();
-            return response()->json(compact('player'));
+            return response()->json(['jugador'=>$player]);
         }
     }
 
@@ -125,7 +125,7 @@ class PlayerController extends Controller
 
         //$rank = Player::select(['name','percent'])->where('totalshots','!=','0')->orderByDesc('percent')->get();
 
-        return response()->json(compact('average'));
+        return response()->json(['Percentatge mig d\'encerts'=>$average]);
     }
 
 
@@ -133,7 +133,7 @@ class PlayerController extends Controller
     {
         $loser = Player::select(['name', 'percent'])->where('totalshots', '!=', '0')->orderBy('percent', 'asc')->first();
 
-        return response()->json(compact('loser'));
+        return response()->json(['Últim jugador del Ranking'=>$loser]);
     }
 
 
@@ -141,6 +141,6 @@ class PlayerController extends Controller
     {
         $winner = Player::select(['name', 'percent'])->where('totalshots', '!=', '0')->orderBy('percent', 'desc')->first();
 
-        return response()->json(compact('winner'));
+        return response()->json(['Primer judagor del ranking'=>$winner]);
     }
 }
