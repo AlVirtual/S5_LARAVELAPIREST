@@ -15,8 +15,8 @@ class ShotFactory extends Factory
      * @return string
      */
     protected $model = Shot::class;
-    
-    
+
+
     /**
      * Define the model's default state.
      *
@@ -24,17 +24,16 @@ class ShotFactory extends Factory
      */
     public function definition()
     {
-        $dice1 = rand(1,6);
-        $dice2 = rand(1,6);
+        $dice1 = rand(1, 6);
+        $dice2 = rand(1, 6);
         $result = (($dice1 + $dice2) == 7) ? true : false;
-        $total = $dice1+$dice2;
+        $total = $dice1 + $dice2;
         return [
             'dice1' => $dice1,
-            'dice2'=> $dice2,
+            'dice2' => $dice2,
             'result' => $result,
             'total' => $total,
             'player_id' => Player::all()->random()->id
         ];
     }
-    //$this->faker->randomElement(['0','1']),
 }
