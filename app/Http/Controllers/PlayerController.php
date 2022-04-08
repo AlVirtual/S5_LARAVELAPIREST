@@ -18,8 +18,8 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::all(['name','percent']);
-        
+        $players = Player::all(['name', 'percent']);
+
         return response()->json(compact('players'));
     }
 
@@ -30,8 +30,6 @@ class PlayerController extends Controller
      */
     public function create()
     {
-
-
     }
 
     /**
@@ -42,28 +40,23 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-               
-        /* $request->validate([
-            'name' => 'required|string',
-        ]); */
-        
+
         $player = new Player();
         $player->name = $request->name ?? 'Anonim';
-        $player->winshots = $request->winshots;
-        $player->loseshots = $request->loseshots;
-        $player->totalshots = $request->totalshots;
-        $player->percent = $request->percent;
+        $player->winshots = '0';
+        $player->loseshots = '0';
+        $player->totalshots = '0';
+        $player->percent = '0';
         $player->user_id = Auth::user()->id;
 
-        $playeruser = Player::where ('user_id', Auth::user()->id)->first();
-        
-        
-        if(!$playeruser){
+        $playeruser = Player::where('user_id', Auth::user()->id)->first();
+
+
+        if (!$playeruser) {
 
             $player->save();
             return response()->json(compact('player'));
-        } 
-        else{
+        } else {
 
             return response()->json(['message' => 'Ja tens un player assignat.El teu player es:', $playeruser]);
         }
@@ -102,12 +95,11 @@ class PlayerController extends Controller
     {
         $player->name = $request->name;
 
-        if ($player->user_id != Auth::user()->id){
+        if ($player->user_id != Auth::user()->id) {
 
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
-        }
-        else{
+            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+        } else {
 
             $player->save();
             return response()->json(compact('player'));
@@ -128,28 +120,27 @@ class PlayerController extends Controller
 
     public function rank()
     {
-        $rank = Player::select(['name','percent'])->where('totalshots','!=','0')->orderByDesc('percent')->get();
-        
-        //$players = Player::avg('percent');
 
-        return response()->json(compact('rank'));
+        $average = Player::avg('percent');
+
+        //$rank = Player::select(['name','percent'])->where('totalshots','!=','0')->orderByDesc('percent')->get();
+
+        return response()->json(compact('average'));
     }
 
 
     public function loser()
     {
-        $loser = Player::select(['name','percent'])->where('totalshots','!=','0')->orderBy('percent','asc')->first();
-        
+        $loser = Player::select(['name', 'percent'])->where('totalshots', '!=', '0')->orderBy('percent', 'asc')->first();
+
         return response()->json(compact('loser'));
     }
 
 
     public function winner()
     {
-        $winner = Player::select(['name','percent'])->where('totalshots','!=','0')->orderBy('percent','desc')->first();
-        
+        $winner = Player::select(['name', 'percent'])->where('totalshots', '!=', '0')->orderBy('percent', 'desc')->first();
+
         return response()->json(compact('winner'));
     }
-
-
 }

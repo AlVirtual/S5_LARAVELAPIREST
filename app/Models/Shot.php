@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\App;
 class Shot extends Model
 {
     use HasFactory;
-    protected $fillable = ['dice1','dice2','result','total','player_id'];
+    protected $fillable = ['dice1', 'dice2', 'result', 'total', 'player_id'];
 
     public function player()
     {

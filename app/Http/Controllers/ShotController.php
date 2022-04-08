@@ -39,23 +39,23 @@ class ShotController extends Controller
      */
     public function store(Request $request, Player $player)
     {
+
         //comprovar que el player pertany al user
-        if($player->user_id != Auth::user()->id){
-            
+
+        if ($player->user_id != Auth::user()->id) {
+
             $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
-            
+            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+        } else {
 
-        }else{
-
-        //executem la partida amb jugador, daus i resultat
+            //executem la partida amb jugador, daus i resultat
             $player = $player->id;
-            $dice1 = rand(1,6);
-            $dice2 = rand(1,6);
+            $dice1 = rand(1, 6);
+            $dice2 = rand(1, 6);
 
-            $result = (($dice1 + $dice2) === 7) ? true : false;    
+            $result = (($dice1 + $dice2) === 7) ? true : false;
 
-        //guardem la partida
+            //guardem la partida
             $shot = new Shot();
 
             $shot->dice1 = $dice1;
@@ -66,20 +66,19 @@ class ShotController extends Controller
 
             $shot->save();
 
-        //actualitzem els estats del jugador
+            //actualitzem els estats del jugador
             $playerup = Player::find($player);
-            if($result == true){
+            if ($result == true) {
 
                 $playerup->increStats($playerup);
-            }
-            else{
+            } else {
 
                 $playerup->decreStats($playerup);
             }
-        
-        //retornem json
 
-            return response()->json(compact('player','dice1','dice2','result'));
+            //retornem json
+
+            return response()->json(compact('player', 'dice1', 'dice2', 'result'));
         }
     }
 
@@ -91,23 +90,20 @@ class ShotController extends Controller
      */
     public function show(Player $player)
     {
-        if($player->user_id != Auth::user()->id){
-            
-            $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
-            
-        }
-        else{
-            $playershots = Shot::where('player_id',$player->id)->get();
 
-            if(empty($playershots)){
-            
-                return response()->json(compact('playershots'));
-            
-            }
-            else{
+        if ($player->user_id != Auth::user()->id) {
+
+            $playeruser = Player::where('user_id', Auth::user()->id)->first();
+            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+        } else {
+            $playershots = Shot::where('player_id', $player->id)->get();
+
+            if (empty($playershots)) {
 
                 return response()->json(['message' => 'No tens historial de jugades o aquest a sigut esborrat']);
+            } else {
+
+                return response()->json(compact('playershots'));
             }
         }
     }
@@ -144,26 +140,22 @@ class ShotController extends Controller
     public function destroy(Shot $shot, Player $player)
     {
         //Comprovar si les jugades pertanyen al jugador
-        if($player->user_id != Auth::user()->id){
-            
-            $playeruser = Player::where('user_id', Auth::user()->id)->first();
-            return response()->json(['message'=>'Aquest jugador no et pertany. El teu jugador es:',compact('playeruser')]);
-            
-        }
-        else{
+        if ($player->user_id != Auth::user()->id) {
 
-        //Esborrem jugades del jugador
-            $playershots = Shot::where("player_id","=","$player->id");
-                        
+            $playeruser = Player::where('user_id', Auth::user()->id)->first();
+            return response()->json(['message' => 'Aquest jugador no et pertany. El teu jugador es:', compact('playeruser')]);
+        } else {
+
+            //Esborrem jugades del jugador
+            $playershots = Shot::where("player_id", "=", "$player->id");
+
             $playershots->delete();
 
-        //Actualitzem estats del jugador
+            //Actualitzem estats del jugador
             $player = Player::find($player->id);
             $player->resetStats($player);
 
             return response()->json(['message' => 'Partides esborrades correctament. El teu marcador s\'ha establert a 0']);
         }
-        
     }
-
 }

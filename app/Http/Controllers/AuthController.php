@@ -24,46 +24,38 @@ class AuthController extends Controller
         $user = User::create($requestData);
 
         $accessToken = $user->createToken('authToken')->accessToken;
-        return response()->json(['user'=> $user,'access_token'=>$accessToken],200);
-
+        return response()->json(['user' => $user, 'access_token' => $accessToken], 200);
     }
 
     public function login(Request $request)
     {
-        $loginData = $request->all();/* ->validate([
+        $loginData = $request->validate([
             'email' => 'email|required',
             'password' => 'required'
-        ]); */
+        ]);
 
 
-        if(!Auth::attempt($loginData)){
-            
-            return response()->json(['message' => 'Dades incorrectes'],400);
-        }
-        else{   
-            /** @var \App\Models\User $user **/  
-            $user = Auth::user(); 
+        if (!Auth::attempt($loginData)) {
+
+            return response()->json(['message' => 'Dades incorrectes'], 400);
+        } else {
+            /** @var \App\Models\User $user **/
+            $user = Auth::user();
             $accessToken = $user->createToken('authToken')->accessToken;
-            return response()->json(['user'=> $user,'access_token'=>$accessToken],200);
-
+            return response()->json(['user' => $user, 'access_token' => $accessToken], 200);
         }
     }
 
-    public function userInfo() 
+    public function userInfo()
     {
- 
+
         $user = Auth::user();
         return response()->json(['user' => $user], 200);
- 
     }
 
     public function logout(Request $request)
-{
+    {
         $request->user()->token()->revoke();
-        return response()->json(['message' => 'Sessió tancada amb èxit'],200);
-}
-
-
-    
-
+        return response()->json(['message' => 'Sessió tancada amb èxit'], 200);
+    }
 }
