@@ -53,7 +53,13 @@ class ShotController extends Controller
             $dice1 = rand(1, 6);
             $dice2 = rand(1, 6);
 
+            $sumdices =$dice1+$dice2;
             $result = (($dice1 + $dice2) === 7) ? true : false;
+            if($result == true){
+                $text = 'You WIN';
+            }else{
+                $text = 'You LOSE';
+            }
 
             //guardem la partida
             $shot = new Shot();
@@ -78,7 +84,7 @@ class ShotController extends Controller
 
             //retornem json
 
-            return response()->json(compact('player', 'dice1', 'dice2', 'result'));
+            return response()->json(['id Jugador'=>$player,'Dau 1'=>$dice1,'Dau 2'=>$dice2,'Total'=>$sumdices,'Resultat'=>$text]);
         }
     }
 
