@@ -77,15 +77,16 @@ class ShotController extends Controller
 
                 $playerup->decreStats($playerup);
             }
+            
 
             //retornem json
-/*             if($result == true){
+            if($result == true){
                 $text = 'You WIN';
             }else{
                 $text = 'You LOSE';
-            } */
-            return response()->json(['Jugada'=>$shot]);
-            //return response()->json(['id Jugador'=>$player,'Dau 1'=>$dice1,'Dau 2'=>$dice2,'Total'=>$sumdices,'Resultat'=>$text]);
+            }
+            
+            return response()->json(['id Jugador'=>$player,'Dau 1'=>$dice1,'Dau 2'=>$dice2,'Total'=>$sumdices,'Resultat'=>$text]);
         }
     }
 

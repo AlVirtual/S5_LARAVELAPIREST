@@ -17,9 +17,9 @@ class CreatePlayersTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('winshots')->nullable();
-            $table->string('loseshots')->nullable();
-            $table->string('totalshots')->nullable();
+            $table->integer('winshots')->nullable();
+            $table->integer('loseshots')->nullable();
+            $table->integer('totalshots')->nullable();
             $table->float('percent')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')

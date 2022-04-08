@@ -22,10 +22,10 @@ class Player extends Model
 
     public function resetStats(Player $player)
     {
-        $player->winshots = '0';
-        $player->loseshots = '0';
-        $player->totalshots = '0';
-        $player->percent = '0';
+        $player->winshots = 0;
+        $player->loseshots = 0;
+        $player->totalshots = 0;
+        $player->percent = 0;
 
         $player->save();
     }
